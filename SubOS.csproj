@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <StartupObject>SubOS.Program</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="B_CMD\**" />
+    <Compile Remove="VFS\**" />
+    <EmbeddedResource Remove="B_CMD\**" />
+    <EmbeddedResource Remove="VFS\**" />
+    <None Remove="B_CMD\**" />
+    <None Remove="VFS\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="VFS.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="B_CMD\B_CMD.csproj">
+      <Private>True</Private>
+      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
+    <ProjectReference Include="VFS\VFS.csproj">
+      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>
