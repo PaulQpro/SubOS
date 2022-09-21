@@ -8,11 +8,11 @@ namespace SubOS
 {
     public class B_CMD
     {
-        public void HELP()
+        static public void HELP()
         {
             WriteLine("Use \"HELP <module>\" to get help of installed modules.\nList of modules:\nSUBOS, VFS, B_CMD, EE_NET");
         }
-        public void HELP(string module)
+        static public void HELP(string module)
         {
             if(module == "SUBOS")
             {
@@ -21,8 +21,12 @@ namespace SubOS
             else if (module == "VFS")
             {
                 WriteLine("Virtual File System version 0.1\nPublisher: Experemintal Software Studio \"Pendalf\"\nDevoloper: \"YouShallNotPass\" LLC and PaulQpro");
-                WriteLine("Commands:\nCD - Change Directory, using \"CD <Dir>\"\nMD - Make Directory, using \"MD <Name>\"\nMF - Make File, using \"MF <Name> <Type>\" or \"MD <Name>\"");
+                WriteLine("Commands:\nCD - Change Directory, using \"CD <Name of Directory> or CD ..\"\nMD - Make Directory, using \"MD <Name>\"\nMF - Make File, using \"MF <Name> <Type>\" or \"MD <Name>\"");
             }
+        }
+        static public void CLR()
+        {
+            Clear();
         }
     }
 }

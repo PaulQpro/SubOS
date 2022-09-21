@@ -26,48 +26,83 @@ namespace SubOS
             Disk C = fs.disks[0];
             current = C.root;
             MD(current, "SubOS");
-            current = FindDirByFullName(C.root, "SubOS");
+            current = CD(current, "SubOS");
+            MD(current, "System42");
+            MD(current, "Lang");
             MF(current, "SubOS", "sys");
             MF(current, "VFS", "sys");
-            MF(current, "B_CMD", "com");
+            MF(current, "B_CMD", "lib");
             MF(current, "EE_NET", "net");
+            current = CD(current, "System42");
+            MF(current, "Console", "con");
+            MF(current, "IO", "con");
+            current = CD(current, "..");
+            current = CD(current, "Lang");
+            MF(current, "EN-US", "lang");
             current = C.root;
             Clear();
         }
         static void Console_COM()
         {
-            B_CMD com = new();
             while (true)
             {
-                Write(current.path+"\n>");
+                Write(current.path+">");
                 string cmd = ReadLine()!.Trim().ToUpper();
-                if (cmd.IndexOf(' ') != -1)
+                string[] args = cmd.Split(' ');
+                for (int i = 0; i < args.Length; i++)
                 {
-                    string[] args = cmd.Split(' ');
-                    for (int i = 0; i < args.Length; i++)
+                    args[i] = args[i].Trim('\"');
+                }
+                cmd = args[0];
+                if (cmd == "HELP")
+                {
+                    if(args.Length > 1)
                     {
-                        args[i] = args[i].Trim('\"');
+                        HELP(args[1]);
                     }
-                    cmd = args[0];
-                    if (cmd == "HELP")
+                    else
                     {
-                        com.HELP(args[1]);
-                    }
-                    else if (cmd == "EXIT")
-                    {
-                        break;
+                        HELP();
                     }
                 }
-                else
+                else if (cmd == "CD")
                 {
-                    if(cmd == "HELP")
+                    if (args.Length > 1)
                     {
-                        com.HELP();
+                        Dir nextCurrent = CD(current, args[1]);
+                        if (nextCurrent != null)
+                        {
+                            current = nextCurrent;
+                        }
                     }
-                    else if(cmd == "EXIT")
+                    else
                     {
-                        break;
+                        WriteLine("CD using : CD <Name of Directory> or CD ..");
                     }
+                }
+                else if (cmd == "CD..")
+                {
+                    Dir nextCurrent = CD(current, "..");
+                    if (nextCurrent != null)
+                    {
+                        current = nextCurrent;
+                    }
+                }
+                else if (cmd == "DIR")
+                {
+                    DIR(current, DirDisplayType.DOS);
+                }
+                else if (cmd == "LIST")
+                {
+                    DIR(current, DirDisplayType.LIST);
+                }
+                else if (cmd == "CLR")
+                {
+                    CLR();
+                }
+                else if (cmd == "EXIT")
+                {
+                    break;
                 }
             }
         }
