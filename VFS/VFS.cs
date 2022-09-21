@@ -3,7 +3,10 @@ using System.Collections;
 using static System.Console;
 using static System.Threading.Thread;
 using System.Collections.Generic;
+using static SubOS.VFS;
+using System.IO;
 
+#pragma warning disable CS8603 // Возможно, возврат ссылки, допускающей значение NULL.
 namespace SubOS
 {
     public class VFS
@@ -26,54 +29,90 @@ namespace SubOS
             public string name;
             public List<Dir> dirs = new();
             public List<_File> files = new();
+            public readonly Dir? parent;
+            public readonly char diskLetter;
             readonly bool isRoot = false;
             readonly bool closed = false;
+            public readonly string path;
 
-            public Dir(string name)
+            public Dir(string name, Dir? parent, char diskLetter, bool isRoot, bool closed)
             {
                 this.name = name;
-            }
-            public Dir(string name, bool isRoot, bool closed)
-            {
-                this.name = name;
+                this.parent = parent;
+                this.diskLetter = diskLetter;
                 this.isRoot = isRoot;
                 this.closed = closed;
+                path = diskLetter + @":\";
             }
-            public Dir(string name, bool closed)
+
+            public Dir(string name, Dir parent, char diskLetter)
             {
                 this.name = name;
-                this.closed = closed;
+                this.parent = parent;
+                this.diskLetter = diskLetter;
+                path = parent.path + name + @"\";
             }
+
+            public Dir(string name, Dir parent, char diskLetter, bool closed)
+            {
+                this.closed = closed;
+                this.name = name;
+                this.parent = parent;
+                this.diskLetter = diskLetter;
+                path = parent.path + name + @"\";
+            }
+
+#pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
+            /// <summary>
+            /// Only for non-method creating of instance
+            /// </summary>
+            public Dir()
+            {
+        }
+#pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
         }
         public class _File
         {
             public string name = "file";
             public string? type;
             readonly bool closed = false;
+            readonly string path;
+            readonly Dir parent;
 
-            public _File(string name, string type, bool closed)
+            public _File(Dir parent, string name, string type, bool closed)
             {
                 this.name = name;
                 this.type = type;
                 this.closed = closed;
+                this.parent = parent;
+                path = parent.path + name + @"\";
             }
 
-            public _File(string name)
+            public _File(Dir parent, string name)
             {
                 this.name = name;
+                this.parent = parent;
+                path = parent.path + name + @"\";
             }
-            public _File(string name, string type)
+            public _File(Dir parent, string name, string type)
             {
                 this.name = name;
                 this.type = type;
+                this.parent = parent;
+                path = parent.path + name + @"\";
             }
         }
         public List<Disk> disks = new();
+        public enum DirDisplayType
+        {
+            DOS = 0,
+            LIST = 2
+        }
         public static Dir FindDirByFullName(Dir dir, string dirName)
         {
             foreach (Dir fDir in dir.dirs)
             {
-                if (fDir.name == dirName)
+                if (fDir.name.ToUpper() == dirName.ToUpper())
                 {
                     return fDir;
                 }
@@ -96,7 +135,7 @@ namespace SubOS
         {
             if (FindDirByFullName(dir, name) == null)
             {
-                dir.dirs.Add(new Dir(name));
+                dir.dirs.Add(new Dir(name, dir, dir.diskLetter));
             }
             else
             {
@@ -107,28 +146,67 @@ namespace SubOS
         {
             /*if (FindDirByFullName(dir, name) == null)
             {*/
-                dir.files.Add(new _File(name, type));
+                dir.files.Add(new _File(dir, name, type));
             /*}
             else
             {
                 WriteLine("Folder with this name is already exists");
             }*/
         }
-        public static void DIR(Dir dir)
+        public static void DIR(Dir dir, DirDisplayType type)
         {
             foreach (Dir Fdir in dir.dirs)
             {
-                Write(Fdir.name.ToUpper());
-                SetCursorPosition(27, CursorTop);
-                WriteLine("DIR");
+                string output = Fdir.name.ToUpper();
+                while (output.Length < 26)
+                {
+                    output = output + ".";
+                }
+                output = output + "DIR";
+                WriteLine(output);
             }
             foreach (_File file in dir.files)
             {
-                Write(file.name.ToUpper());
-                SetCursorPosition(27, CursorTop);
-                if (file.type != null) { WriteLine(file.type.ToUpper()); }
-                else { WriteLine("NONE"); }
+                string output = file.name.ToUpper();
+                while (output.Length < 26)
+                {
+                    output = output + ".";
+                }
+                if(file.type != null)
+                {
+                    output = output + file.type.ToUpper();
+                }
+                else
+                {
+                    output = output + "N/A";
+                }
+                WriteLine(output);
+            }
+        }
+        public static Dir CD(Dir dir,string name)
+        {
+            if (name != "..")
+            {
+                Dir newdir = FindDirByFullName(dir, name);
+                if (newdir != null)
+                {
+                    return newdir;
+                }
+                else
+                {
+                    WriteLine("No Such Directory");
+                    return null;
+                }
+            }
+            else if (dir.parent == null)
+            {
+                return dir;
+            }
+            else
+            {
+                return dir.parent;
             }
         }
     }
 }
+#pragma warning restore CS8603 // Возможно, возврат ссылки, допускающей значение NULL.
