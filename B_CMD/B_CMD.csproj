@@ -16,4 +16,8 @@
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VFS\VFS.csproj" />
+  </ItemGroup>
+
 </Project>
