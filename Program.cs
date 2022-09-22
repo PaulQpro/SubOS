@@ -15,10 +15,10 @@ namespace SubOS
             Write("VFS (Virtual File System) version 0.1 :"); Sleep(350); ForegroundColor = ConsoleColor.DarkGreen; WriteLine(" Initialized"); ForegroundColor = ConsoleColor.White;
             Write("B_CMD (Basic Command) version 0.1 :");  Sleep(350); ForegroundColor = ConsoleColor.DarkGreen; WriteLine(" Initialized"); ForegroundColor = ConsoleColor.White;
             Write("EE_NET (Easteregg.NET) version 0.069 :"); Sleep(350); ForegroundColor = ConsoleColor.DarkGreen; WriteLine(" Initialized"); ForegroundColor = ConsoleColor.White;
-            Write("VRFS_IO (Virtual/Real File System Input/Output) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkYellow; WriteLine(" Not Available"); ForegroundColor = ConsoleColor.White;
-            Write("SCal (Simple Calculator) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkYellow; WriteLine(" Not Available"); ForegroundColor = ConsoleColor.White;
-            Write("VCG (Virtual Console Games) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkRed; WriteLine(" Not Planned"); ForegroundColor = ConsoleColor.White;
-            Write("ACal (Advanced Calculator) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkRed; WriteLine(" Not Planned"); ForegroundColor = ConsoleColor.White;
+            Write("VRFS_IO (Virtual/Real File System Input/Output) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkYellow; WriteLine(" WiP"); ForegroundColor = ConsoleColor.White;
+            Write("SCal (Simple Calculator) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkYellow; WriteLine(" WiP"); ForegroundColor = ConsoleColor.White;
+            Write("VCG (Virtual Console Games) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkRed; WriteLine(" Idea only, not Not Planned"); ForegroundColor = ConsoleColor.White;
+            Write("ACal (Advanced Calculator) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkRed; WriteLine(" Planned, not WiP"); ForegroundColor = ConsoleColor.White;
             WriteLine("Press Any key to continue");
             ReadKey();
             VFS fs = new();
@@ -103,6 +103,10 @@ namespace SubOS
                 else if (cmd == "EXIT")
                 {
                     break;
+                }
+                else
+                {
+                    WriteLine("No Such Command");
                 }
             }
         }
