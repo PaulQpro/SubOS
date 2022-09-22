@@ -21,7 +21,12 @@ namespace SubOS
             else if (module == "VFS")
             {
                 WriteLine("Virtual File System version 0.1\nPublisher: Experemintal Software Studio \"Pendalf\"\nDevoloper: \"YouShallNotPass\" LLC and PaulQpro");
-                WriteLine("Commands:\nCD - Change Directory, using \"CD <Name of Directory> or CD ..\"\nMD - Make Directory, using \"MD <Name>\"\nMF - Make File, using \"MF <Name> <Type>\" or \"MD <Name>\"");
+                WriteLine("Commands:\nCD - Change Directory, usage \"CD <Name of Directory>\" or \"CD ..\"\nDIR - Print Current Directory on Screen, usage \"DIR\"");//\nMD - Make Directory, usage \"MD <Name>\"\nMF - Make File, usage \"MF <Name> <Type>\" or \"MD <Name>\"
+            }
+            else if (module == "B_CMD" || module == "CMD")
+            {
+                WriteLine("Basic Commands version 0.1\nPublisher: Experemintal Software Studio \"Pendalf\"\nDevoloper: \"YouShallNotPass\" LLC and PaulQpro");
+                WriteLine("Commands:\nHELP - Get Help, usage \"HELP\" or \"HELP <module>\"\nCLR - Clear Screen, usage \"CLR\"\nEXIT - Close Program, usage \"EXIT\"");
             }
         }
         static public void CLR()
