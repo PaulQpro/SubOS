@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using static System.Console;
 using static System.Threading.Thread;
 using static SubOS.VFS;
@@ -11,10 +14,10 @@ namespace SubOS
         static Dir current = new();
         static void Ini()
         {
-            WriteLine("Welcome to Paul's SubOS version 0.1");
+            Write("Welcome to Paul's SubOS"); Sleep(350); WriteLine(" version 0.2");
             Write("VFS (Virtual File System) version 0.1 :"); Sleep(350); ForegroundColor = ConsoleColor.DarkGreen; WriteLine(" Initialized"); ForegroundColor = ConsoleColor.White;
-            Write("B_CMD (Basic Command) version 0.1 :");  Sleep(350); ForegroundColor = ConsoleColor.DarkGreen; WriteLine(" Initialized"); ForegroundColor = ConsoleColor.White;
-            Write("EE_NET (Easteregg.NET) version 0.069 :"); Sleep(350); ForegroundColor = ConsoleColor.DarkGreen; WriteLine(" Initialized"); ForegroundColor = ConsoleColor.White;
+            Write("B_CMD (Basic Command)"); Sleep(350); Write(" version 0.2 :");  Sleep(350); ForegroundColor = ConsoleColor.DarkGreen; WriteLine(" Initialized"); ForegroundColor = ConsoleColor.White;
+            Write("EE_NET (Easteregg.NET)"); Sleep(350); Write(" version 0.069 :"); Sleep(350); ForegroundColor = ConsoleColor.DarkGreen; WriteLine(" Initialized"); ForegroundColor = ConsoleColor.White;
             Write("VRFS_IO (Virtual/Real File System Input/Output) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkYellow; WriteLine(" WiP"); ForegroundColor = ConsoleColor.White;
             Write("SCal (Simple Calculator) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkYellow; WriteLine(" WiP"); ForegroundColor = ConsoleColor.White;
             Write("VCG (Virtual Console Games) :"); Sleep(350); ForegroundColor = ConsoleColor.DarkRed; WriteLine(" Idea only, not Not Planned"); ForegroundColor = ConsoleColor.White;
@@ -44,6 +47,7 @@ namespace SubOS
         }
         static void Console_COM()
         {
+            SCal.Menu();
             while (true)
             {
                 Write(current.path+">");

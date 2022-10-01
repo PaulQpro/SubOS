@@ -28,6 +28,10 @@ namespace SubOS
                 WriteLine("Basic Commands version 0.1\nPublisher: Experemintal Software Studio \"Pendalf\"\nDevoloper: \"YouShallNotPass\" LLC and PaulQpro");
                 WriteLine("Commands:\nHELP - Get Help, usage \"HELP\" or \"HELP <module>\"\nCLR - Clear Screen, usage \"CLR\"\nEXIT - Close Program, usage \"EXIT\"");
             }
+            else if (module == "EE_NET")
+            {
+                WriteLine("Easteregg.NET version 0.069\nDevoloper & Publisher: PaulQpro");
+            }
         }
         static public void CLR()
         {

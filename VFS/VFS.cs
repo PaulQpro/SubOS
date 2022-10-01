@@ -5,6 +5,7 @@ using static System.Threading.Thread;
 using System.Collections.Generic;
 using static SubOS.VFS;
 using System.IO;
+using System.Text.Json;
 
 #pragma warning disable CS8603 // Возможно, возврат ссылки, допускающей значение NULL.
 namespace SubOS
