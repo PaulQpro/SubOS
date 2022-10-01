@@ -11,7 +11,7 @@ namespace SubOS
         {
             ForegroundColor = ConsoleColor.Black;
             BackgroundColor = ConsoleColor.Gray;
-            Write("Volga Information Tehnology Production Presents:\n"); Sleep(1000); Write("Made by best Russian programmers\n"); Sleep(1000); WriteLine("       THE CALCULATOR      ");
+            Write("Volga Information Tehnology Production Presents:\n"); Sleep(1000); WriteLine("       THE CALCULATOR      ");
             ForegroundColor = ConsoleColor.White;
             BackgroundColor = ConsoleColor.Black;
             ReadKey();
