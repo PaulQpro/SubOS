@@ -18,10 +18,13 @@
 
   <ItemGroup>
     <Compile Remove="B_CMD\**" />
+    <Compile Remove="SCal\**" />
     <Compile Remove="VFS\**" />
     <EmbeddedResource Remove="B_CMD\**" />
+    <EmbeddedResource Remove="SCal\**" />
     <EmbeddedResource Remove="VFS\**" />
     <None Remove="B_CMD\**" />
+    <None Remove="SCal\**" />
     <None Remove="VFS\**" />
   </ItemGroup>
 
