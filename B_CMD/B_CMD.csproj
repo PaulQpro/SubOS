@@ -17,6 +17,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SCal\SCal.csproj">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\VFS\VFS.csproj" />
   </ItemGroup>
 
