@@ -9,77 +9,84 @@ namespace SubOS
 {
     public class B_CMD
     {
-        public static void Console_COM(Dir current, VFS fs)
+        public static int CMD_HANDLER(Dir current, VFS fs, string cmd, string[] args, out Dir outCurrent)
         {
-            while (true)
+            if (cmd == "HELP")
             {
-                Write(current.path + ">");
-                string cmd = ReadLine()!.Trim().ToUpper();
-                string[] args = cmd.Split(' ');
-                for (int i = 0; i < args.Length; i++)
+                if (args.Length > 1)
                 {
-                    args[i] = args[i].Trim('\"');
+                    HELP(args[1]);
                 }
-                cmd = args[0];
-                if (cmd == "HELP")
+                else
                 {
-                    if (args.Length > 1)
-                    {
-                        HELP(args[1]);
-                    }
-                    else
-                    {
-                        HELP();
-                    }
+                    HELP();
                 }
-                else if (cmd == "CD")
+            }
+            else if (cmd == "CD")
+            {
+                if (args.Length > 1)
                 {
-                    if (args.Length > 1)
-                    {
-                        Dir nextCurrent = CD(current, args[1]);
-                        if (nextCurrent != null)
-                        {
-                            current = nextCurrent;
-                        }
-                    }
-                    else
-                    {
-                        WriteLine("CD using : CD <Name of Directory> or CD ..");
-                    }
-                }
-                else if (cmd == "CD..")
-                {
-                    Dir nextCurrent = CD(current, "..");
+                    Dir nextCurrent = CD(current, args[1]);
                     if (nextCurrent != null)
                     {
                         current = nextCurrent;
                     }
                 }
-                else if (cmd == "DIR")
-                {
-                    DIR(current, DirDisplayType.DOS);
-                }
-                else if (cmd == "LIST")
-                {
-                    DIR(current, DirDisplayType.LIST);
-                }
-                else if (cmd == "CLR")
-                {
-                    CLR();
-                }
-                else if (cmd == "EXIT")
-                {
-                    break;
-                }
-                else if ((cmd == "SCAL.APP" || cmd == "SCAL") && current.path == @"C:\Apps\SCal\")
-                {
-                    SCal.Menu();
-                }
                 else
                 {
-                    WriteLine("No Such Command or Executable File (.app, .con)");
+                    WriteLine("CD using : CD <Name of Directory> or CD ..");
                 }
             }
+            else if (cmd == "CD..")
+            {
+                Dir nextCurrent = CD(current, "..");
+                if (nextCurrent != null)
+                {
+                    current = nextCurrent;
+                }
+            }
+            else if (cmd == "DIR")
+            {
+                DIR(current, DirDisplayType.DOS);
+            }
+            else if (cmd == "LIST")
+            {
+                DIR(current, DirDisplayType.LIST);
+            }
+            else if (cmd == "CLR")
+            {
+                CLR();
+            }
+            else if (cmd == "EXIT")
+            {
+                outCurrent = current;
+                return 0xE;
+            }
+            else
+            {
+                string name = cmd.Split('.')[0];
+                _File file = FindFileByName(current, name);
+                if (file != null && file.exe)
+                {
+                    switch (file.name)
+                    {
+                        case "DOS":
+                            WriteLine("Starting C:\\SubOS\\System42\\DOS.con");
+                            Sleep(850);
+                            CLR();
+                            outCurrent = fs.disks[0].root;
+                            return 0x1;
+                        case "SCal":
+                            SCal.Menu();
+                            break;
+                        default: break;
+                    }
+                }
+                else if (file != null && (file.type == "con" || file.type == "app") && !file.exe) WriteLine("Wrong or Broken Executable");
+                else WriteLine("No Such Command or Executable File (.app, .con)");
+            }
+            outCurrent = current;
+            return 0xA;
         }
         static public void HELP()
         {

@@ -79,62 +79,54 @@ namespace SubOS
             readonly bool closed = false;
             readonly string path;
             readonly Dir parent;
+            readonly public bool exe;
 
-            public _File(Dir parent, string name, string type, bool closed)
+            public _File(Dir parent, string name, string type, bool closed, bool exe)
             {
                 this.name = name;
                 this.type = type;
                 this.closed = closed;
                 this.parent = parent;
                 path = parent.path + name + @"\";
+                this.exe = exe;
             }
 
-            public _File(Dir parent, string name)
+            public _File(Dir parent, string name, bool exe)
             {
                 this.name = name;
                 this.parent = parent;
                 path = parent.path + name + @"\";
+                this.exe = exe;
             }
-            public _File(Dir parent, string name, string type)
+            public _File(Dir parent, string name, string type, bool exe)
             {
                 this.name = name;
                 this.type = type;
                 this.parent = parent;
                 path = parent.path + name + @"\";
+                this.exe = exe;
             }
         }
         public List<Disk> disks = new();
         public enum DirDisplayType
         {
             DOS = 0,
+            UNIX = 1,
             LIST = 2
         }
-        public static Dir FindDirByFullName(Dir dir, string dirName)
+        public static Dir FindDirByName(Dir dir, string dirName)
         {
-            foreach (Dir fDir in dir.dirs)
-            {
-                if (fDir.name.ToUpper() == dirName.ToUpper())
-                {
-                    return fDir;
-                }
-            }
+            foreach (Dir fDir in dir.dirs) if (fDir.name.ToUpper() == dirName.ToUpper()) return fDir;
             return null;
         }
-        public static Dir[] FindDirsByName(Dir dir, string dirName)
+        public static _File FindFileByName(Dir dir, string fileName)
         {
-            List<Dir> dirs = new();
-            foreach (Dir dirF in dir.dirs!)
-            {
-                if(dirF.name == dirName)
-                {
-                    dirs.Add(dirF);
-                }
-            }
-            return dirs.ToArray();
+            foreach (_File fFile in dir.files) if (fFile.name.ToUpper() == fileName.ToUpper()) return fFile;
+            return null;
         }
         public static void MD(Dir dir, string name)
         {
-            if (FindDirByFullName(dir, name) == null)
+            if (FindDirByName(dir, name) == null)
             {
                 dir.dirs.Add(new Dir(name, dir, dir.diskLetter));
             }
@@ -143,11 +135,11 @@ namespace SubOS
                 WriteLine("Folder with this name is already exists");
             }
         }
-        public static void MF(Dir dir, string name, string type)
+        public static void MF(Dir dir, string name, string type, bool exe)
         {
-            /*if (FindDirByFullName(dir, name) == null)
+            /*if (FindDirByName(dir, name) == null)
             {*/
-                dir.files.Add(new _File(dir, name, type));
+                dir.files.Add(new _File(dir, name, type, exe));
             /*}
             else
             {
@@ -188,7 +180,7 @@ namespace SubOS
         {
             if (name != "..")
             {
-                Dir newdir = FindDirByFullName(dir, name);
+                Dir newdir = FindDirByName(dir, name);
                 if (newdir != null)
                 {
                     return newdir;
