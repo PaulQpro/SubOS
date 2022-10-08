@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubOS", "SubOS.csproj", "{3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VFS", "VFS\VFS.csproj", "{A59A1A88-270F-4BB2-B2E6-F19F999D1E57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B_CMD", "B_CMD\B_CMD.csproj", "{30C80230-4BEC-4BD6-93A9-6D0B64C2AEC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "B_CMD", "B_CMD\B_CMD.csproj", "{30C80230-4BEC-4BD6-93A9-6D0B64C2AEC1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCal", "SCal\SCal.csproj", "{E6AA3EB2-B4AC-4EAB-990A-B57161491CF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{30C80230-4BEC-4BD6-93A9-6D0B64C2AEC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30C80230-4BEC-4BD6-93A9-6D0B64C2AEC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30C80230-4BEC-4BD6-93A9-6D0B64C2AEC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6AA3EB2-B4AC-4EAB-990A-B57161491CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6AA3EB2-B4AC-4EAB-990A-B57161491CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6AA3EB2-B4AC-4EAB-990A-B57161491CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6AA3EB2-B4AC-4EAB-990A-B57161491CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
