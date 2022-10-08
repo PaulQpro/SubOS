@@ -9,6 +9,11 @@ namespace SubOS
 {
     public class B_CMD
     {
+        public enum ConDispType
+        {
+            DOS,
+            UNIX
+        }
         public static int CMD_HANDLER(Dir current, VFS fs, string cmd, string[] args, out Dir outCurrent)
         {
             if (cmd == "HELP")
@@ -75,11 +80,17 @@ namespace SubOS
                             Sleep(850);
                             CLR();
                             outCurrent = fs.disks[0].root;
-                            return 0x1;
+                            return 0xD;
+                        case "UNIX":
+                            WriteLine("Starting C:\\SubOS\\System42\\UNIX.con");
+                            Sleep(850);
+                            CLR();
+                            outCurrent = fs.disks[0].root;
+                            return 0xB;
                         case "SCal":
                             SCal.Menu();
                             break;
-                        default: break;
+                        default: WriteLine("Wrong Executable"); break;
                     }
                 }
                 else if (file != null && (file.type == "con" || file.type == "app") && !file.exe) WriteLine("Wrong or Broken Executable");

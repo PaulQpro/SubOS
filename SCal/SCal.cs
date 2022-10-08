@@ -10,14 +10,16 @@ namespace SubOS
         static public void Menu()
         {
             Write("Volga Information Tehnology Production Presents:\n"); Sleep(1000); 
-            WriteLine("       CALCULATOR      "); Sleep(500);
             WriteLine(
+                "       CALCULATOR      "); Sleep(500); WriteLine(
                 "╔═════════════════════╗\n" +
                 "║                     ║\n" +
-                "╚═════════════════════╝"
+                "║     ['s']-Start     ║\n" +
+                "║     ['r']-Rules     ║\n" +
+                "║                     ║\n" +
+                "╚═════════════════════╝\n" +
+                ">"
             );
-            ForegroundColor = ConsoleColor.White;
-            BackgroundColor = ConsoleColor.Black;
             ReadKey();
         }
     }
