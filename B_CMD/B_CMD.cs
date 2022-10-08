@@ -9,6 +9,11 @@ namespace SubOS
 {
     public class B_CMD
     {
+        public enum ConDispType
+        {
+            DOS,
+            UNIX
+        }
         public static int CMD_HANDLER(Dir current, VFS fs, string cmd, string[] args, out Dir outCurrent)
         {
             if (cmd == "HELP")
@@ -75,11 +80,17 @@ namespace SubOS
                             Sleep(850);
                             CLR();
                             outCurrent = fs.disks[0].root;
-                            return 0x1;
+                            return 0xD;
+                        case "UNIX":
+                            WriteLine("Starting C:\\SubOS\\System42\\UNIX.con");
+                            Sleep(850);
+                            CLR();
+                            outCurrent = fs.disks[0].root;
+                            return 0xB;
                         case "SCal":
                             SCal.Menu();
                             break;
-                        default: break;
+                        default: WriteLine("Wrong Executable"); break;
                     }
                 }
                 else if (file != null && (file.type == "con" || file.type == "app") && !file.exe) WriteLine("Wrong or Broken Executable");
@@ -96,7 +107,7 @@ namespace SubOS
         {
             if(module == "SUBOS")
             {
-                WriteLine("Paul's SubOS version 0.1\nPublisher: Experemintal Software Studio \"Pendalf\"\nDevoloper: \"YouShallNotPass\" LLC and PaulQpro");
+                WriteLine("Paul's SubOS version 0.2\nPublisher: Experemintal Software Studio \"Pendalf\"\nDevoloper: \"YouShallNotPass\" LLC and PaulQpro");
             }
             else if (module == "VFS")
             {
@@ -105,7 +116,7 @@ namespace SubOS
             }
             else if (module == "B_CMD" || module == "CMD")
             {
-                WriteLine("Basic Commands version 0.1\nPublisher: Experemintal Software Studio \"Pendalf\"\nDevoloper: \"YouShallNotPass\" LLC and PaulQpro");
+                WriteLine("Basic Commands version 0.2\nPublisher: Experemintal Software Studio \"Pendalf\"\nDevoloper: \"YouShallNotPass\" LLC and PaulQpro");
                 WriteLine("Commands:\nHELP - Get Help, usage \"HELP\" or \"HELP <module>\"\nCLR - Clear Screen, usage \"CLR\"\nEXIT - Close Program, usage \"EXIT\"");
             }
             else if (module == "EE_NET")

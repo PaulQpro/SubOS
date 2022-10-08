@@ -39,7 +39,7 @@ namespace SubOS
             MF(current, "EE_NET", "net", false);
             current = CD(current, "System42");
             MF(current, "DOS", "con", true);
-            MF(current, "UNIX", "con.wip", false);
+            MF(current, "UNIX", "con", true);
             MF(current, "Console", "lib", false);
             MF(current, "IO", "lib", false);
             current = CD(current, "..");
@@ -63,13 +63,21 @@ namespace SubOS
         {
             VFS fs = new();
             Ini(fs);
-            while(Console_COM(fs) != 0);
+            ConDispType type = ConDispType.DOS;
+            while (true)
+            {
+                int res = Console_COM(fs, type);
+                if (res == 0) break;
+                else if (res == 1) type = ConDispType.DOS;
+                else if (res == 2) type = ConDispType.UNIX;
+            }
         }
-        public static int Console_COM(VFS fs)
+        public static int Console_COM(VFS fs, ConDispType type)
         {
             while (true)
             {
-                Write(current.path + ">");
+                if (type == ConDispType.UNIX) Write(current.path.Substring(0, current.path.Length-1).Replace('\\', '/') + "$ ");
+                else if (type == ConDispType.DOS) Write(current.path + ">");
                 string cmd = ReadLine()!.Trim().ToUpper();
                 string[] args = cmd.Split(' ');
                 for (int i = 0; i < args.Length; i++)
@@ -79,6 +87,8 @@ namespace SubOS
                 cmd = args[0];
                 int outCode = CMD_HANDLER(current, fs, cmd, args, out current);
                 if (outCode == 0xE) return 0;
+                else if (outCode == 0xD) return 1;
+                else if (outCode == 0xB) return 2;
             }
         }
     }
